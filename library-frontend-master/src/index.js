@@ -1,5 +1,24 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './App'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+import {
+  ApolloClient,
+  HttpLink,
+  InMemoryCache,
+  ApolloProvider,
+} from '@apollo/client';
 
-ReactDOM.render(<App />, document.getElementById('root'))
+//create client object used to send queries
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: new HttpLink({
+    uri: 'http://localhost:4000',
+  }),
+});
+
+ReactDOM.render(
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>,
+  document.getElementById('root')
+);
