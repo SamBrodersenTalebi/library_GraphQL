@@ -141,8 +141,21 @@ const resolvers = {
       const findAuthor = authors.find((author) => author.name === args.author);
 
       if (!findAuthor) {
-        const author = { ...findAuthor, id: uuid() };
-        authors = authors.concat(author);
+        const newAuthor = {
+          name: args.author,
+          born: null,
+          bookCount: 1,
+          id: uuid(),
+        };
+        authors = authors.concat(newAuthor);
+      } else {
+        const updatedAuthor = {
+          ...findAuthor,
+          bookCount: ++findAuthor.bookCount,
+        };
+        authors = authors.map((a) =>
+          a.name !== findAuthor.name ? a : updatedAuthor
+        );
       }
 
       const book = { ...args, id: uuid() };
